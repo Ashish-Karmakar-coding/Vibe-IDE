@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
     "build": "vite build && electron-builder",
+    "build:win": "vite build && electron-builder --win",
+    "build:installer": "vite build && electron-builder --win nsis",
     "build:portable": "vite build && electron-builder --win portable",
     "preview": "cross-env NODE_ENV=production electron .",
     "rebuild": "electron-rebuild -f -w node-pty",
@@ -67,14 +69,25 @@
       "icon": "assets/icon.png",
       "target": [
         {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
           "target": "portable",
           "arch": ["x64"]
         }
-      ],
-      "artifactName": "${productName}-Portable-${version}.exe"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "LumaIDE",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "${productName}-Portable-${version}.exe"
+      "artifactName": "${productName}-Portable-${version}.${ext}"
     },
     "mac": {
       "icon": "assets/icon.png",
