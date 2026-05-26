@@ -1,0 +1,90 @@
+{
+  "name": "lumaide",
+  "version": "1.0.0",
+  "description": "LumaIDE — AI-Powered Desktop IDE with Local LLM via Ollama",
+  "main": "src/main/index.js",
+  "author": "LumaIDE",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+    "build": "vite build && electron-builder",
+    "build:portable": "vite build && electron-builder --win portable",
+    "preview": "cross-env NODE_ENV=production electron .",
+    "rebuild": "electron-rebuild -f -w node-pty",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
+    "axios": "^1.6.8",
+    "chokidar": "^3.6.0",
+    "electron-store": "^8.2.0",
+    "highlight.js": "^11.10.0",
+    "marked": "^12.0.0",
+    "monaco-editor": "^0.47.0",
+    "node-pty": "^1.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.13",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^29.1.4",
+    "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.8",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.lumaide.ide",
+    "productName": "LumaIDE",
+    "copyright": "Copyright © 2026 LumaIDE",
+    "forceCodeSigning": false,
+    "directories": {
+      "output": "C:/Users/Kenshin06/Desktop/LumaIDE-Build"
+    },
+    "files": [
+      "dist/renderer/**/*",
+      "src/main/**/*",
+      "src/preload/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraResources": [],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/node-pty/**/*"
+    ],
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "${productName}-Portable-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.exe"
+    },
+    "mac": {
+      "icon": "assets/icon.png",
+      "target": "dmg",
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "target": "AppImage",
+      "category": "Development"
+    }
+  }
+}
